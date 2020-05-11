@@ -5,7 +5,8 @@ RUN yum install -y \
     curl \
     httpd \
     php \
- && ln -s /usr/sbin/httpd /usr/sbin/apache2
+ && ln -s /usr/sbin/httpd /usr/sbin/apache2 \
+ && ln -sf /dev/stdout /etc/httpd/logs/access_log
 
 # Install app
 RUN rm -rf /var/www/html/* && mkdir -p /var/www/html
