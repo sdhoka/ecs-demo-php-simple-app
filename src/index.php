@@ -20,6 +20,24 @@
                 <p>Your PHP application is now running on a container in Amazon ECS.</p>
                 <p>The container is running PHP version <?php echo phpversion(); ?>.</p>
                 <?php
+                        $dbhost = $_SERVER['RDS_HOSTNAME'];
+                        $dbport = $_SERVER['RDS_PORT'];
+                        $dbname = $_SERVER['RDS_DB_NAME'];
+                        $charset = 'utf8' ;
+
+                        $dsn = "pgsql:host={$dbhost};port={$dbport};dbname={$dbname};options='-c client_encoding=utf8'";
+                        $username = $_SERVER['RDS_USERNAME'];
+                        $password = $_SERVER['RDS_PASSWORD'];
+
+                        $conn = new PDO($dsn, $username, $password);
+
+                        if(! $conn )
+                        {
+                          die('Could not connect to instance: ');
+                        }
+                        echo "Connected to POSTGRESQL Successfully! $dsn";
+                ?>
+                <?php
                         $myfile = fopen("/var/www/my-vol/date", "r") or die("");
                         echo fread($myfile,filesize("/var/www/my-vol/date"));
                         fclose($myfile);

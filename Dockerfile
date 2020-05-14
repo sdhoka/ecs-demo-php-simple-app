@@ -5,11 +5,13 @@ RUN yum install -y \
     curl \
     httpd \
     php \
+    php-pgsql \
  && ln -s /usr/sbin/httpd /usr/sbin/apache2 \
  && ln -sf /dev/stdout /etc/httpd/logs/access_log
 
 # Install app
 RUN rm -rf /var/www/html/* && mkdir -p /var/www/html
+ADD entrypoint.sh /bin/entrypoint.sh
 ADD src /var/www/html
 
 # Configure apache
@@ -20,4 +22,4 @@ ENV APACHE_LOG_DIR /var/log/apache2
 
 EXPOSE 80
 
-CMD ["/usr/sbin/apache2", "-D",  "FOREGROUND"]
+CMD ["/bin/entrypoint.sh"]
