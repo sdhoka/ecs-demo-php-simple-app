@@ -6,6 +6,7 @@ RUN yum install -y \
     httpd \
     php \
     php-pgsql \
+    jq \
  && ln -s /usr/sbin/httpd /usr/sbin/apache2 \
  && ln -sf /dev/stdout /etc/httpd/logs/access_log
 
