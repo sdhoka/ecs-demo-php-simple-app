@@ -3,7 +3,11 @@
 trap "exit" SIGINT
 
 echo "extracting environment variables"
-export RDS_PASSWORD= $RDS_PASSWORD|jq -r '.RDS_PASSWORD'
+
+if [ -z $RDS_CONFIG ]; then
+	$(echo $RDS_CONFIG | jq -r 'keys[] as $k | "export \($k)=\(.[$k])"')
+fi
 
 echo "starting apache server"
+
 httpd -D FOREGROUND -c "PassEnv RDS_PORT RDS_HOSTNAME RDS_DB_NAME RDS_USERNAME RDS_PASSWORD"
