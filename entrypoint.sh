@@ -4,7 +4,8 @@ trap "exit" SIGINT
 
 echo "extracting environment variables"
 
-if [ ! -z $RDS_CONFIG ]; then
+if [ ! -z "$RDS_CONFIG" ]; then
+
 	$(echo ${RDS_CONFIG} | jq -r 'keys[] as $k | "export \($k)=\(.[$k])"')
 fi
 
